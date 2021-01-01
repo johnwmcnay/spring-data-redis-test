@@ -21,13 +21,6 @@ public class CustomerController {
     @Autowired
     CustomerRepository customerDao;
 
-    @Autowired
-    ReactiveRedisConnectionFactory factory;
-
-    @Qualifier("reactiveRedisTemplate")
-    @Autowired
-    ReactiveRedisTemplate redisTemplate;
-
     @GetMapping("/{id}/get")
     @ResponseBody
     public Customer getCustomer(@PathVariable String id) {
@@ -38,13 +31,6 @@ public class CustomerController {
     @ResponseBody
     public Customer addCustomer(@RequestBody Customer customer) {
         return customerDao.save(customer);
-    }
-
-    @PostConstruct
-    public void test() {
-
-        redisTemplate.listenToChannel("channel1", "channel2").doOnNext(msg -> { System.out.println("msg = " + msg);
-        }).subscribe();
     }
 
 }
