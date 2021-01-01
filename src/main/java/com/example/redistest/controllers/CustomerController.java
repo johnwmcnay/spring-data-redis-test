@@ -6,8 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
+import org.springframework.data.redis.core.ReactiveRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @RestController
@@ -16,6 +20,13 @@ public class CustomerController {
 
     @Autowired
     CustomerRepository customerDao;
+
+    @Autowired
+    ReactiveRedisConnectionFactory factory;
+
+    @Qualifier("reactiveRedisTemplate")
+    @Autowired
+    ReactiveRedisTemplate redisTemplate;
 
     @GetMapping("/{id}/get")
     @ResponseBody
@@ -27,6 +38,13 @@ public class CustomerController {
     @ResponseBody
     public Customer addCustomer(@RequestBody Customer customer) {
         return customerDao.save(customer);
+    }
+
+    @PostConstruct
+    public void test() {
+
+        redisTemplate.listenToChannel("channel1", "channel2").doOnNext(msg -> { System.out.println("msg = " + msg);
+        }).subscribe();
     }
 
 }
