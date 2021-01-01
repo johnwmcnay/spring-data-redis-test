@@ -20,8 +20,6 @@ public class CustomerController {
     @GetMapping("/{id}/get")
     @ResponseBody
     public Optional<Customer> getCustomer(@PathVariable long id) {
-        System.out.println(customerDao.toString());
-
         return customerDao.findById(id);
     }
 
