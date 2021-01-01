@@ -1,6 +1,7 @@
 package com.example.redistest.models;
 
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.redis.core.RedisHash;
@@ -15,7 +16,7 @@ import java.util.List;
 public class Customer {
 
     @Id
-    private Long id;
+    private String id;
 
     @Indexed
     private String externalId;
@@ -23,8 +24,7 @@ public class Customer {
     private String name;
     private List<Account> accounts = new ArrayList<>();
 
-    public Customer(Long id, String externalId, String name) {
-        this.id = id;
+    public Customer(String externalId, String name) {
         this.externalId = externalId;
         this.name = name;
     }

@@ -10,6 +10,6 @@ import java.util.List;
 public interface CustomerRepository extends CrudRepository<Customer, Long> {
 
     Customer findByExternalId(String externalId);
-    List<Customer> findByAccountsId(Long id);
+    List<Customer> findByAccounts(Long id);
 
 }

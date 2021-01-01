@@ -19,8 +19,14 @@ public class CustomerController {
 
     @GetMapping("/{id}/get")
     @ResponseBody
-    public Optional<Customer> getCustomer(@PathVariable long id) {
-        return customerDao.findById(id);
+    public Customer getCustomer(@PathVariable String id) {
+        return customerDao.findByExternalId(id);
+    }
+
+    @PostMapping(value = "/add", consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public Customer addCustomer(@RequestBody Customer customer) {
+        return customerDao.save(customer);
     }
 
 }
